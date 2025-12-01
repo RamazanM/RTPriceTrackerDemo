@@ -1,4 +1,4 @@
-package com.ramazanm.rtpricetrackerdemo.model
+package com.ramazanm.rtpricetrackerdemo.data.model
 
 data class StockUi(
     val name: String = "",
