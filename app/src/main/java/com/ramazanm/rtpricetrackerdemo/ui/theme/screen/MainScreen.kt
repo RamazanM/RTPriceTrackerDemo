@@ -31,19 +31,19 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramazanm.rtpricetrackerdemo.data.model.StockIndicator
 import com.ramazanm.rtpricetrackerdemo.presentation.StockViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(viewModel: StockViewModel) {
+fun MainScreen(viewModel: StockViewModel=hiltViewModel()) {
     val stockList by viewModel.stockUpdates.collectAsState()
     val isConnected by viewModel.isConnected.collectAsState()
 
     Scaffold(
         topBar = {
             TopAppBar(
-                modifier = Modifier.padding(16.dp),
                 title = { },
                 navigationIcon = {
                     Box(
@@ -73,9 +73,9 @@ fun MainScreen(viewModel: StockViewModel) {
             Modifier
                 .padding(paddingValues)
                 .fillMaxSize()
-                .testTag("LazyColumn")
+                .testTag("LazyColumn"),
         ) {
-            items(stockList, key = {it.name}) { item ->
+            items(stockList) { item ->
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
