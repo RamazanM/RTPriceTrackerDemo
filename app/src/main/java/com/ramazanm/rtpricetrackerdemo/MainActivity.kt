@@ -4,39 +4,40 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.ramazanm.rtpricetrackerdemo.presentation.StockViewModel
 import com.ramazanm.rtpricetrackerdemo.ui.theme.RTPriceTrackerDemoTheme
+import com.ramazanm.rtpricetrackerdemo.ui.theme.screen.DetailScreen
 import com.ramazanm.rtpricetrackerdemo.ui.theme.screen.MainScreen
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.serialization.Serializable
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @Serializable
+    object Feed
+    @Serializable
+    data class Detail(val name: String)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val navController = rememberNavController()
+            val viewModel: StockViewModel = hiltViewModel()
+
             RTPriceTrackerDemoTheme {
-                MainScreen()
+                NavHost(navController = navController, startDestination = Feed) {
+                    composable<Feed> { MainScreen(navController,viewModel) }
+                    composable<Detail> { backstackEntry ->
+                        val name = backstackEntry.arguments?.getString("name") ?: ""
+                        DetailScreen(navController, viewModel, name)
+                    }
+                }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    RTPriceTrackerDemoTheme {
-        Greeting("Android")
     }
 }

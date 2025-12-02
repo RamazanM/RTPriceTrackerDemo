@@ -1,6 +1,7 @@
 package com.ramazanm.rtpricetrackerdemo.ui.theme.screen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -32,12 +33,14 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import com.ramazanm.rtpricetrackerdemo.MainActivity
 import com.ramazanm.rtpricetrackerdemo.data.model.StockIndicator
 import com.ramazanm.rtpricetrackerdemo.presentation.StockViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(viewModel: StockViewModel=hiltViewModel()) {
+fun MainScreen(navController: NavController, viewModel: StockViewModel = hiltViewModel()) {
     val stockList by viewModel.stockUpdates.collectAsState()
     val isConnected by viewModel.isConnected.collectAsState()
 
@@ -75,11 +78,14 @@ fun MainScreen(viewModel: StockViewModel=hiltViewModel()) {
                 .fillMaxSize()
                 .testTag("LazyColumn"),
         ) {
-            items(stockList) { item ->
+            items(stockList, key = { it.name }) { item ->
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(8.dp)
+                        .clickable {
+                            navController.navigate(MainActivity.Detail(item.name))
+                        }
                 ) {
                     Row(
                         Modifier
