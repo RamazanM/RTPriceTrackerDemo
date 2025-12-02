@@ -88,7 +88,7 @@ class EchoStockRepositoryImpl(
         echoJob = ioCoroutineScope.launch {
             while (isActive) {
                 for (symbol in symbolList)
-                    sendStockUpdate(generateRandomStockResponse(symbol))
+                    sendStockUpdate(generateRandomStockResponse(symbol.first,symbol.second))
                 delay(2000L)
             }
         }
@@ -102,38 +102,38 @@ class EchoStockRepositoryImpl(
         webSocket.send(gson.toJson(updatedValue))
     }
 
-    private fun generateRandomStockResponse(name: String): StockDTO {
-        return StockDTO(name, (Math.random() * 1000))
+    private fun generateRandomStockResponse(name: String, description: String): StockDTO {
+        return StockDTO(name, (Math.random() * 1000),description)
     }
 
     companion object {
         //Predefined list of stock symbols used to generate random data.
         val symbolList = listOf(
-            "AAPL",
-            "MSFT",
-            "NVDA",
-            "AMZN",
-            "GOOGL",
-            "GOOG",
-            "META",
-            "TSLA",
-            "AVGO",
-            "ASML",
-            "NFLX",
-            "COST",
-            "ADBE",
-            "AMD",
-            "CMCSA",
-            "CSCO",
-            "PEP",
-            "INTC",
-            "T-MUS",
-            "PYPL",
-            "QCOM",
-            "SBUX",
-            "ISRG",
-            "MU",
-            "AMGN"
+            "AAPL" to "Apple Inc.",
+            "MSFT" to "Microsoft Corporation",
+            "NVDA" to "NVIDIA Corporation",
+            "AMZN" to "Amazon.com, Inc.",
+            "GOOGL" to "Alphabet Inc. Class A",
+            "GOOG" to "Alphabet Inc. Class C",
+            "META" to "Meta Platforms, Inc.",
+            "TSLA" to "Tesla, Inc.",
+            "AVGO" to "Broadcom Inc.",
+            "ASML" to "ASML Holding N.V.",
+            "NFLX" to "Netflix, Inc.",
+            "COST" to "Costco Wholesale Corporation",
+            "ADBE" to "Adobe Inc.",
+            "AMD" to "Advanced Micro Devices, Inc.",
+            "CMCSA" to "Comcast Corporation",
+            "CSCO" to "Cisco Systems, Inc.",
+            "PEP" to "PepsiCo, Inc.",
+            "INTC" to "Intel Corporation",
+            "T-MUS" to "T-Mobile US, Inc.",
+            "PYPL" to "PayPal Holdings, Inc.",
+            "QCOM" to "Qualcomm Incorporated",
+            "SBUX" to "Starbucks Corporation",
+            "ISRG" to "Intuitive Surgical, Inc.",
+            "MU" to "Micron Technology, Inc.",
+            "AMGN" to "Amgen Inc."
         )
     }
 }
