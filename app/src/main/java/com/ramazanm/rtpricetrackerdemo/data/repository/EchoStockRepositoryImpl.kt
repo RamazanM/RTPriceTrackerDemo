@@ -33,6 +33,9 @@ class EchoStockRepositoryImpl(
     private lateinit var webSocket: WebSocket
 
     override fun connect() {
+        if (::webSocket.isInitialized) {
+            webSocket.close(1000, "New Connection")
+        }
         webSocket = OkHttpClient().newWebSocket(
             Request.Builder().url(baseUrl).build(),
             object : WebSocketListener() {
