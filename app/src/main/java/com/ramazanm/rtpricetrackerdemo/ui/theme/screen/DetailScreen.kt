@@ -14,29 +14,28 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ramazanm.rtpricetrackerdemo.data.model.StockIndicator
-import com.ramazanm.rtpricetrackerdemo.presentation.StockViewModel
+import com.ramazanm.rtpricetrackerdemo.presentation.DetailViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailScreen(navController: NavController, viewModel: StockViewModel, name: String) {
-    val stocksData = viewModel.stockUpdates.collectAsState()
-    val selectedStockData by derivedStateOf { stocksData.value.find { it.name == name }?: stocksData.value.first() }
+fun DetailScreen(navController: NavController, viewModel: DetailViewModel = hiltViewModel()) {
+    val selectedStockData by viewModel.stockUi.collectAsState()
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Text(
-                        text = selectedStockData.name,
+                        text = selectedStockData?.name ?: "",
                         modifier = Modifier.testTag("SymbolDetailsTitle")
                     )
                 },
@@ -59,17 +58,17 @@ fun DetailScreen(navController: NavController, viewModel: StockViewModel, name: 
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text(text = selectedStockData.name)
+            Text(text = selectedStockData?.name ?: "")
             Text(
-                text = "$${String.format("%.2f", selectedStockData.price)}",
-                color = when(selectedStockData.indicator){
+                text = "$${String.format("%.2f", selectedStockData?.price)}",
+                color = when(selectedStockData?.indicator?: StockIndicator.NEUTRAL){
                     StockIndicator.UP -> Color.Green
                     StockIndicator.DOWN -> Color.Red
                     StockIndicator.NEUTRAL -> Color.Black
                 }
             )
             Text(
-                text = selectedStockData.details,
+                text = selectedStockData?.details ?: "",
                 modifier = Modifier.padding(top = 16.dp)
             )
         }

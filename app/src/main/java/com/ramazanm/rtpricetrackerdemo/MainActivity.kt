@@ -4,11 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.ramazanm.rtpricetrackerdemo.presentation.StockViewModel
 import com.ramazanm.rtpricetrackerdemo.ui.theme.RTPriceTrackerDemoTheme
 import com.ramazanm.rtpricetrackerdemo.ui.theme.screen.DetailScreen
 import com.ramazanm.rtpricetrackerdemo.ui.theme.screen.MainScreen
@@ -27,14 +25,12 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val navController = rememberNavController()
-            val viewModel: StockViewModel = hiltViewModel()
 
             RTPriceTrackerDemoTheme {
                 NavHost(navController = navController, startDestination = Feed) {
-                    composable<Feed> { MainScreen(navController,viewModel) }
-                    composable<Detail> { backstackEntry ->
-                        val name = backstackEntry.arguments?.getString("name") ?: ""
-                        DetailScreen(navController, viewModel, name)
+                    composable<Feed> { MainScreen(navController) }
+                    composable<Detail> {
+                        DetailScreen(navController)
                     }
                 }
             }

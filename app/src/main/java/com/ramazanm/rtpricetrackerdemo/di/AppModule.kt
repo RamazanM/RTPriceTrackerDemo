@@ -27,6 +27,7 @@ object AppModule {
         return Dispatchers.IO
     }
     @Provides
+    @Singleton
     fun provideStockRepository(): StockRepository {
         return EchoStockRepositoryImpl(
             ioDispatcher = Dispatchers.IO,
