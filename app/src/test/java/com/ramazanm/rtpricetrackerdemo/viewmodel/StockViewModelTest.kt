@@ -4,6 +4,7 @@ import app.cash.turbine.test
 import com.google.gson.Gson
 import com.ramazanm.rtpricetrackerdemo.data.repository.EchoStockRepositoryImpl
 import com.ramazanm.rtpricetrackerdemo.data.repository.StockRepository
+import com.ramazanm.rtpricetrackerdemo.domain.StockCollectorUseCase
 import com.ramazanm.rtpricetrackerdemo.presentation.StockViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -26,6 +27,9 @@ class StockViewModelTest {
     private lateinit var repository: StockRepository
     private lateinit var viewModel: StockViewModel
 
+    private lateinit var stockCollectorUseCase: StockCollectorUseCase
+
+
     @Before
     fun setup() = runTest {
         // Initialize the ViewModel before each test
@@ -43,8 +47,9 @@ class StockViewModelTest {
             mockWebServer.url("/").toString(),
             Gson()
         )
+        stockCollectorUseCase= StockCollectorUseCase(repository)
 
-        viewModel = StockViewModel(repository, UnconfinedTestDispatcher(testScheduler))
+        viewModel = StockViewModel(stockCollectorUseCase, UnconfinedTestDispatcher(testScheduler))
     }
 
     @After
@@ -88,10 +93,11 @@ class StockViewModelTest {
         advanceUntilIdle()
 
         viewModel.stockUpdates.test {
-            println(awaitItem()) //Skip initial empty value
-            println(awaitItem())
+            awaitItem() //Skip initial empty value
+            awaitItem()
             viewModel.stopWsConnection()
-            println(awaitItem())
+            advanceUntilIdle()
+            awaitItem()
             cancelAndIgnoreRemainingEvents()
         }
         advanceUntilIdle()
@@ -106,8 +112,9 @@ class StockViewModelTest {
             mockWebServer.url("/").toString(),
             Gson()
         )
+        stockCollectorUseCase= StockCollectorUseCase(repository)
 
-        viewModel = StockViewModel(repository, UnconfinedTestDispatcher(testScheduler))
+        viewModel = StockViewModel(stockCollectorUseCase, UnconfinedTestDispatcher(testScheduler))
         viewModel.startWsConnection()
         viewModel.stockUpdates.test(timeout = 5.toDuration(DurationUnit.SECONDS)) {
             for (i in 1..10) { // Skip first ten items

@@ -74,7 +74,7 @@ class StockRepositoryTest {
         repositoryImpl.stockUpdates.test(timeout = 10.toDuration(DurationUnit.SECONDS)) {
             repositoryImpl.sendStockUpdate(
                 StockDTO(
-                    "Test", 100.0, Date().time
+                    "Test", 100.0,  "Test description",Date().time,
                 )
             )
             val item = awaitItem()
@@ -104,7 +104,7 @@ class StockRepositoryTest {
             repository.connect()
             for (i in 0..10) {
                 val item = awaitItem()
-                assertEquals(EchoStockRepositoryImpl.symbolList[i], item.name)
+                assertEquals(EchoStockRepositoryImpl.symbolList[i].first, item.name)
             }
             repository.disconnect()
             cancelAndIgnoreRemainingEvents()
