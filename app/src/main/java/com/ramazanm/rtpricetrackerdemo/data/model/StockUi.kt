@@ -4,7 +4,8 @@ data class StockUi(
     val name: String = "",
     val price: Double = 0.0,
     val timestamp: Long = 0,
-    val indicator: StockIndicator = StockIndicator.NEUTRAL
+    val indicator: StockIndicator = StockIndicator.NEUTRAL,
+    val details: String = ""
 )
 
 enum class StockIndicator {

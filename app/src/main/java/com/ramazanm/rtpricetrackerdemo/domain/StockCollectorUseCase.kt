@@ -25,12 +25,12 @@ class StockCollectorUseCase @Inject constructor(val repository: StockRepository)
                     else -> StockIndicator.NEUTRAL
                 }
                 currentList[index] =
-                    StockUi(stockUpdate.name, stockUpdate.price, Date().time, indicator)
+                    StockUi(stockUpdate.name, stockUpdate.price, Date().time, indicator, stockUpdate.description)
             } else {
                 currentList.add(
                     StockUi(
                         stockUpdate.name, stockUpdate.price, Date().time,
-                        StockIndicator.NEUTRAL
+                        StockIndicator.NEUTRAL, stockUpdate.description
                     )
                 )
             }
