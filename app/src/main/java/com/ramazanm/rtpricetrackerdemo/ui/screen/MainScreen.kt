@@ -1,7 +1,8 @@
-package com.ramazanm.rtpricetrackerdemo.ui.theme.screen
+package com.ramazanm.rtpricetrackerdemo.ui.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,10 +16,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -51,6 +52,7 @@ fun MainScreen(navController: NavController, viewModel: StockViewModel = hiltVie
                 navigationIcon = {
                     Box(
                         modifier = Modifier
+                            .padding(start = 16.dp)
                             .size(24.dp)
                             .clip(CircleShape)
                             .background(if (isConnected) Color.Green else Color.Red)
@@ -62,8 +64,8 @@ fun MainScreen(navController: NavController, viewModel: StockViewModel = hiltVie
                     )
                 },
                 actions = {
-                    Button(
-                        modifier = Modifier.testTag("ToggleServerButton"),
+                    OutlinedButton(
+                        modifier = Modifier.padding(end = 16.dp).testTag("ToggleServerButton"),
                         onClick = { if (isConnected) viewModel.stopWsConnection() else viewModel.startWsConnection() }) {
                         Text(if (isConnected) "Disconnect" else "Connect")
                     }
@@ -91,6 +93,8 @@ fun MainScreen(navController: NavController, viewModel: StockViewModel = hiltVie
                         Modifier
                             .padding(8.dp)
                             .fillMaxWidth()
+                            .padding(8.dp),
+                        horizontalArrangement = Arrangement.SpaceAround
                     ) {
                         Text(item.name)
                         Text("$${String.format("%.2f", item.price)}")

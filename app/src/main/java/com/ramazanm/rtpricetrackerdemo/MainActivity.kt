@@ -7,9 +7,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.ramazanm.rtpricetrackerdemo.ui.screen.DetailScreen
+import com.ramazanm.rtpricetrackerdemo.ui.screen.MainScreen
 import com.ramazanm.rtpricetrackerdemo.ui.theme.RTPriceTrackerDemoTheme
-import com.ramazanm.rtpricetrackerdemo.ui.theme.screen.DetailScreen
-import com.ramazanm.rtpricetrackerdemo.ui.theme.screen.MainScreen
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.serialization.Serializable
 

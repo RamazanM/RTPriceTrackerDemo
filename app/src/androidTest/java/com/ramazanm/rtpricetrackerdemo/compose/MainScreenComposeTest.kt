@@ -11,7 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import com.ramazanm.rtpricetrackerdemo.data.model.StockIndicator
 import com.ramazanm.rtpricetrackerdemo.data.model.StockUi
 import com.ramazanm.rtpricetrackerdemo.presentation.StockViewModel
-import com.ramazanm.rtpricetrackerdemo.ui.theme.screen.MainScreen
+import com.ramazanm.rtpricetrackerdemo.ui.screen.MainScreen
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
