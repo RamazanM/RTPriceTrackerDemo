@@ -78,7 +78,7 @@ fun MainScreen(navController: NavController, viewModel: StockViewModel = hiltVie
                 .fillMaxSize()
                 .testTag("LazyColumn"),
         ) {
-            items(stockList, key = { it.name }) { item ->
+            items(stockList) { item ->
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
