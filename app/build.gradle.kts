@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.serialization)
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
 }
@@ -66,6 +67,8 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.dagger.hilt)
     implementation(libs.hilt.navigation)
+    implementation(libs.kotlinx.serialization.json)
+    implementation("org.jetbrains.androidx.navigation:navigation-compose:2.9.1")
 
 
     ksp("com.google.dagger:hilt-android-compiler:2.57.1")
