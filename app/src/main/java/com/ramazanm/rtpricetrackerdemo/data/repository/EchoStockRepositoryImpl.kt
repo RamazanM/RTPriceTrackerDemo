@@ -81,7 +81,9 @@ class EchoStockRepositoryImpl(
 
     // Starts the main loop for continuously feeding random values to the echo server
     fun startEchoLoop() {
-        if (echoJob != null) return
+        if (echoJob?.isActive == true) {
+            return
+        }
 
         echoJob = ioCoroutineScope.launch {
             while (isActive) {
